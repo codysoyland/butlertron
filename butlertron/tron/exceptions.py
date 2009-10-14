@@ -1,0 +1,2 @@
+class NoRoutes(Exception):
+    pass
