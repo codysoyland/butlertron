@@ -1,4 +1,5 @@
 from collections import defaultdict
+from operator import itemgetter
 import pickle
 
 # bad data store, should use sqlite instead
@@ -34,7 +35,15 @@ def vote(message, location):
     message.reply('You voted for "%s". Type "lpdn stats" for voting stats.' % new_location)
 
 def stats(message):
-    data = Data()
-    results = data.data
-    output = dict([(key, len(value)) for (key, value) in results.iteritems()])
+    output = ", ".join(["%s has %d votes" % (place, votes) for (place, votes) in generate_stats()])
     message.reply(output)
+
+def generate_stats(data=None):
+    if not data:
+        data = Data()
+    results = {}
+    for key, value in data.data.iteritems():
+        results[key] = len(value)
+    results = sorted(results.items(), key=itemgetter(1))
+    results.reverse()
+    return results
