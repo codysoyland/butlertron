@@ -35,9 +35,9 @@ class Bot(object):
             if hasattr(method, 'handler'):
                 self.connection.add_global_handler(method.handler, method)
 
-    def add_handler(type):
+    def add_handler(handler_type):
         def decorator(callback):
-            callback.handler = type
+            callback.handler = handler_type
             return callback
         return decorator
 
